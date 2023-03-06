@@ -1,0 +1,68 @@
+.highlighter p {
+    padding: 5px;
+    z-index: 2;
+    font-size: 22px;
+    color: green;
+    position: absolute;
+    font-weight:bold;
+    color:black;
+    background-color: green;
+}
+.highlighter {
+    border: 2px solid green;
+    box-shadow: 0 0 50px 0 green;
+    z-index: 1;
+    position: absolute;
+    display: grid;
+    place-content: center;
+}
+.rectview {
+    position:absolute;
+    left: 180;
+    bottom:-500;
+}
+#wrappers {
+    margin-top: 60px;
+}
+#sidebar {
+    border: 1px solid black;
+    border-color: rgba(0,0,0,0.3);
+    padding: 15px;
+    background-color: #fff;
+    height: 60vh;
+    margin-top: 100px;
+    overflow:auto;
+}
+#theuploadname{
+    font-size:32px;
+    font-weight:bold;
+}
+#fooditems{
+    font-size:20px;
+    font-weight:bold;
+    text-decoration:underline;
+}
+#thefooddetected{
+    font-size:20px;
+    text-transform: capitalize;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type=submit]{
+  background-color: #66CDAA;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}

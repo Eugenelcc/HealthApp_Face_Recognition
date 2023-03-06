@@ -1,0 +1,130 @@
+<div id="navbar">
+    {% block navbar %}
+    {%include "includes/navbar.html" %}
+    {% endblock %}
+</div>
+
+<html>
+<header>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+</header>
+<body>
+    <div style="background-color: antiquewhite;margin:0 auto; padding:50px; ">
+
+    
+        <p style="font-size:32px;font-weight:bold;"> Enter Your Information :</p>
+        <label for="fname" style="font-weight:bold;color:black;font-size:20px;">Please Enter Your Weight:</label>
+        <input type="text" id="theweight" name="fname" style="width:100px;"><br>
+        <label for="myheight" style="font-weight:bold;color:black;font-size:20px;">Please Enter Your Height:</label>
+        <input type="text" id="theheight" name="myheight" style="width:100px;"><br>
+        <label for="myage" style="font-weight:bold;color:black;font-size:20px;">Please Enter Your Age:</label>
+        <input type="text" id="theage" name="myage" style="width:100px;"><br>
+        <span style="font-weight:bold;font-size:20px;">Please Select An Appropiate Activity Factor: </span>
+        <select name="theactivity" id="selectactivity" class="browser-default" style="width:500px">
+            <option value="1.2">Sedentary  (little or no exercise)</option>
+            <option value="1.375">Lightly active  (light exercise/sports 1-3 days/week)</option>
+            <option value="1.55">Moderately active  (moderate exercise/sports 3-5 days/week)</option>
+            <option value="1.725">Very active (hard exercise/sports 6-7 days a week)</option>
+            <option value="1.9">extra active (very hard exercise/sports & a physical job)</option>
+        </select>
+        <br>
+        <span style="font-weight:bold;font-size:20px;">Please Select Your Gender:</span>
+        <select name="thegender" id="selectgender" class="browser-default" style="width:500px">
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+           
+        </select>
+        <br>
+        <br>
+        <button onclick="myFunction()" style="width:250px;height:60px; border:1px solid black;background-color:white;margin:0 auto;display:block;border-radius:5px;">Submit</button>
+        <form id="myForm" action="/dashboard">
+
+        </form>
+    </div>
+        
+
+
+
+   
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCL4BJG84fK1jXuOf0LYo1YfhBAzqPFw8U",
+            authDomain: "healthappit3100.firebaseapp.com",
+            databaseURL: "https://healthappit3100-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "healthappit3100",
+            storageBucket: "healthappit3100.appspot.com",
+            messagingSenderId: "539039456256", 
+            appId: "1:539039456256:web:06a888e697a9fc498c0ce5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function myFunction(){
+           
+
+            var theweight=document.getElementById("theweight").value;
+            var theheight=document.getElementById("theheight").value;
+            var theage=document.getElementById("theage").value;
+            var thegender=document.getElementById("selectgender").value;
+            var theactivity=document.getElementById("selectactivity").value;
+
+            console.log(theheight)
+            console.log(theage)
+            console.log(thegender)
+            console.log(theactivity)
+            if(thegender=="Women"){
+                womenbmr= 10 * parseFloat(theweight) + 6.25 * parseFloat(theheight) - 5 * parseFloat(theage) - 161
+                calorieintakeforwomen=womenbmr*parseFloat(theactivity);
+                console.log(womenbmr)
+                console.log(calorieintakeforwomen)
+                firebase.database().ref("User/theinfo/").set({
+                            caloriesintakeperday:calorieintakeforwomen,
+                            exer:0
+                            
+                }).then(function() {
+                    $('#myForm').submit();
+                })
+                
+
+
+            }else if(thegender=="Men"){
+                menbmr= 10* parseFloat(theweight) + 6.25*parseFloat(theheight) -5 * parseFloat(theage) +5
+                calorieintakeformen=menbmr*parseFloat(theactivity)
+                console.log(menbmr)
+                console.log(calorieintakeformen)
+                firebase.database().ref("User/theinfo/").set({
+                            caloriesintakeperday:calorieintakeformen,
+                            exer:0
+                            
+                }).then(function() {
+                    $('#myForm').submit();
+                });
+                
+            }
+            
+           
+            
+
+            
+        }
+    </script>
+</body>
+</html>
+

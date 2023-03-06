@@ -1,0 +1,26 @@
+#defaultCanvas0{
+    position:fixed;
+    left:750px;
+    bottom:250px;
+}
+#decoratetimeleft{
+    font-size:28px;
+
+}
+#time{
+    font-size:85px;
+    font-weight:bold;
+}
+#decorateforsets{
+    font-size:28px;
+}
+#setscompleted{
+    font-size:32px;
+    font-weight:bold;
+    padding-left:10px;
+}
+#thecalburned{
+    font-size:32px;
+    font-weight:bold;
+    padding-left:10px;
+}

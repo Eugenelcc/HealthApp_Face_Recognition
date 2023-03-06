@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<div id="navbar">
+  {% block navbar %}
+  {%include "includes/navbar.html" %}
+  {% endblock %}
+</div>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.min.js"></script>
+  <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+  <script src="/static/js/createpose.js"></script>
+  <link rel="stylesheet" href="/static/css/posedetection.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+</head>
+
+<body style="background-color:antiquewhite">
+  <p style="font-size:48px;font-weight:bold;">Welcome To The Exercise Game !</p>
+  <span id="time">00:10</span> &nbsp;&nbsp;&nbsp;&nbsp;
+  <div style="display:inline-block;">
+    <span id="decorateforsets"> Set :</span><span id="setscompleted" ></span><span style="font-size:28px;padding-left:35px;">Calories Burned:</span><span id="thecalburned"></span>
+  </div>
+  <p style="font-size:32px;">Pick Your Activity And Start ! :</p>
+  <div class="selecttheexercise">
+    <label>
+      <input name="group1" type="radio" onclick="iaskforwarrior()" />
+      <span style="font-size:20px;color:black">Warrior Pose</span>
+
+
+    </label>
+    <label>
+      <input name="group1" type="radio" onclick="iaskfortree()" />
+      <span style="font-size:20px;color:black">Tree Pose</span>
+
+    </label>
+
+
+
+
+  </div>
+  <div id="imagediv">
+    <img src="" id="theimagelol" style="width:300px;height:300px;"><br>
+    <span id="theinstructions"></span><br>
+    <span id="thesteps"></span>
+
+  </div>
+
+  <script>
+
+    var firebaseConfig = {
+      apiKey: "AIzaSyCL4BJG84fK1jXuOf0LYo1YfhBAzqPFw8U",
+      authDomain: "healthappit3100.firebaseapp.com",
+      databaseURL: "https://healthappit3100-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "healthappit3100",
+      storageBucket: "healthappit3100.appspot.com",
+      messagingSenderId: "539039456256",
+      appId: "1:539039456256:web:06a888e697a9fc498c0ce5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    document.getElementById("theimagelol").style.visibility = "hidden";
+
+    function iaskforwarrior() {
+      document.getElementById("theimagelol").src = "/static/img/Warrio.jpg";
+      document.getElementById("theimagelol").style.visibility = "visible";
+
+      document.getElementById("theinstructions").innerHTML = "*Note: Stand In A Position That Your Whole Body Can Get Detected By The Camera" + "<br>";
+      document.getElementById("thesteps").innerHTML = "Stand Straight and slowly shift your weight to your left leg <br> Begin to lift your right foot off the floor  <br> Hold 3-5 breaths"
+      selectedsoon("warrior")
+
+    }
+
+    function iaskfortree() {
+      document.getElementById("theimagelol").src = "/static/img/tree.JPG"
+      document.getElementById("theimagelol").style.visibility = "visible";
+      document.getElementById("theinstructions").innerHTML = "*Note: Stand In A Position That Your Whole Body Can Get Detected By The Camera <br>";
+      document.getElementById("thesteps").innerHTML = "Inhale : extend your arms out to the sides <br> Turn your right foot out <br> Exhale : Keep your hips facing forward as you crease at your right hip and bend your knee to a 90-degree angle <br> hold 3-5 breaths"
+      selectedsoon("tree")
+
+
+    }
+  </script>
+
+
+</body>
+
+</html>

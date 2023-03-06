@@ -1,0 +1,499 @@
+{%extends "base.html"%}
+
+{% block title %} FAQ Page{% endblock %}
+
+{%block content%}
+
+<style>
+  
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: rgb(102, 151, 118);
+    }
+
+    .text {
+        text-align: center;
+        color: #e7e7e7;
+        font-family: sans-serif, helvetica;
+        margin-top: 70px;
+        font-size: 250%;
+        font-weight: 400;
+        text-shadow: 2px 1px 2px #eee;
+    }
+
+    img {
+        border-radius: 50%;
+        vertical-align: middle;
+    }
+
+    form {
+        border: 3px solid #f1f1f1;
+        font-family: Arial;
+    }
+
+    .containers {
+        padding: 25px;
+        background-color: #f1f1f1;
+    }
+
+    input[type=text],
+    input[type=submit] {
+        width: 100%;
+        padding: 5px;
+        margin: 6px 0;
+        display: inline-block;
+        border: 2px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    input[type=checkbox] {
+        margin-top: 20px;
+    }
+
+    input[type=submit] {
+        background-color: #04AA6D;
+        color: white;
+        border: none;
+    }
+
+    input[type=submit]:hover {
+        opacity: 0.8;
+    }
+
+
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Lato', sans-serif;
+    }
+
+    .containers {
+        width: 60%;
+        margin: 0 auto;
+        margin-top: 40px;
+    }
+
+    .containers h2 {
+        position: relative;
+        width: 23rem;
+        color: hotpink;
+        margin: 0px 0;
+    }
+
+    .containers h2::after {
+        position: absolute;
+        content: '';
+        width: 67px;
+        height: 2px;
+        right: 5px;
+        background-color: hotpink;
+        bottom: 0;
+    }
+
+    .accordion {
+        width: 90%;
+        padding: 0 5px;
+        border: 2px solid #6db5ff;
+        cursor: pointer;
+        display: flex;
+        margin: 10px 0;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-radius: 30px;
+
+    }
+
+    .accordion i {
+        color: #6db5ff;
+        transition: all .5s ease-in;
+    }
+
+    .accordion .fa-minus {
+        display: none;
+    }
+
+    .active,
+    .accordion:hover {
+        background-color: #04AA6D;
+        ;
+        color: white;
+        transition: all .5s ease-in;
+        border: 2px solid #dddddd;
+    }
+
+    .active .fa-minus {
+        display: block;
+    }
+
+    .active .fa-plus {
+        display: none;
+    }
+
+    .accordion h5 {
+        font-size: 20px;
+        margin: 0;
+        color: #001733;
+        padding-left: 5px;
+    }
+
+    .active i,
+    .active h5,
+    .accordion:hover i,
+    .accordion:hover h5 {
+        color: white;
+    }
+
+    .panal {
+        padding: 0 15px;
+        border-left: 1px solid #6db5ff;
+        margin-left: 25px;
+        font-size: 14px;
+        text-align: justify;
+        overflow: hidden;
+        transition: all .5s ease-in;
+        max-height: 0;
+    }
+
+    .text {
+        text-align: center;
+        color: #e7e7e7;
+        font-family: sans-serif, helvetica;
+        margin-top: 70px;
+        font-size: 250%;
+        font-weight: 400;
+        text-shadow: 2px 1px 2px #eee;
+    }
+
+    .button {
+        background-color: #838f83;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    form {
+        border: 3px solid #f1f1f1;
+        font-family: Arial;
+    }
+
+    .containers {
+        padding: 20px;
+        background-color: #f1f1f1;
+    }
+
+    input[type=text],
+    input[type=submit] {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    input[type=checkbox] {
+        margin-top: 16px;
+    }
+
+    input[type=submit] {
+        background-color: #04AA6D;
+        color: white;
+        border: none;
+    }
+
+    input[type=submit]:hover {
+        opacity: 0.8;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Button used to open the contact form - fixed at the bottom of the page */
+    .open-button {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 23px;
+        right: 28px;
+        width: 270px;
+    }
+
+    /* The popup form - hidden by default */
+    .form-popup {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 15px;
+        border: 3px solid #f1f1f1;
+        z-index: 9;
+    }
+
+    /* Add styles to the form container */
+    .form-container {
+        max-width: 300px;
+        padding: 10px;
+        background-color: white;
+    }
+
+    /* Full-width input fields */
+    .form-container input[type=text],
+    .form-container input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+    }
+
+    /* When the inputs get focus, do something */
+    .form-container input[type=text]:focus,
+    .form-container input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+    /* Set a style for the submit/login button */
+    .form-container .btn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        opacity: 0.8;
+    }
+
+    /* Add a red background color to the cancel button */
+    .form-container .cancel {
+        background-color: red;
+    }
+
+    /* Add some hover effects to buttons */
+    .form-container .btn:hover,
+    .open-button:hover {
+        opacity: 1;
+    }
+
+    p {
+        width: 98%;
+        text-align: left;
+        font-family: 'Roboto Mono', monospace;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    /* Full-width textarea */
+    .form-container textarea {
+        width: 90%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+        resize: none;
+        min-height: 100px;
+    }
+
+    /* When the textarea gets focus, do something */
+    .form-container textarea:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+</style>
+
+</html>
+
+<body>
+ 
+    <b>
+        <h1 class="text"> HiHealth FAQ:</h1>
+    </b>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" />
+
+    <div class="containers">
+        <h2>Frequently Asked Question(FAQS)</h2>
+        <div class="accordion">
+            <h5>What does this App do?</h5>
+            <i class="fas fa-minus"></i>
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="panal">
+            <p>This app allows users to record down their food intake by making them take picture of their meals and
+                identifying each food item.
+                After which, it will produce the amount of calories beside each image and users can see how much they
+                have consumed.
+                The reason for doing this is to allow users to see how much they actually are consuming as individuals
+                have the tendency of presuming that they consumer lesser than the amount they actually take in.</p>
+            <a href="/poster" class="button">View Me ></a>
+        </div>
+
+        <div class="accordion">
+            <h5>Is the app available for both IOS and Android?</h5>
+            <i class="fas fa-minus"></i>
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="panal">
+            <p>Yes! HiHealth is a versatile app and it can hence, function on both IOS and Android Devices.</p>
+        </div>
+
+        <div class="accordion">
+            <h5>Does this app have membership fees?</h5>
+            <i class="fas fa-minus"></i>
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="panal">
+            <p> Not at all! Our App is Free for all. It does not have any membership or subscriptions or advantages. We
+                want everyone to better benefit themselves and hence we made it free. We also want users to use our app
+                in a comfortable way without any commitment and we hope they see results and encourage others to also
+                start using our app!</p>
+        </div>
+
+        <div class="accordion">
+            <h5>What sets HiHealth unique from other calories counter apps?</h5>
+            <i class="fas fa-minus"></i>
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="panal">
+            <p>Unlike other apps which take very long to process the image and makes you manually key in the calories
+                count.HiHealth,on the other hand,has an unique stability of instantly detecting the food items quickly
+                and showcasing the amount of calories right beside the image.</p>
+        </div>
+
+        <div class="accordion">
+            <h5> Privacy Policies of this app?</h5>
+            <i class="fas fa-minus"></i>
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="panal">
+            <p>Our Privacy Policy is well encrypted and stored in our database with high level security. Our app does
+                not collect, use or share your personal data.
+                In addition to this Privacy Policy, we provide data and privacy information verification to your mail
+                when you sign up so as to keep you informed that your personal information is well protected and
+                preserved.</p>
+        </div>
+
+        <div class="accordion">
+            <h5> How long will I take to reach my goal rate </h5>
+            <i class="fas fa-minus"></i>
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="panal">
+            <p>This question is very subjective and the result varies for every individual as it also depends on factors
+                like how much they usually consume, their metabolism rate and etc...Therefore, it is difficult for us to
+                predict it for you. However, a healthy individual using our app would most probably see positive results
+                within 3-4 weeks of using this app if the follow up with our app consistently.</p>
+        </div>
+
+        <div class="accordion">
+            <h5> Why Should I eat healthy?</h5>
+            <i class="fas fa-minus"></i>
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="panal">
+            <p>A healthy diet is essential for good health and nutrition. It protects you against many chronic
+                noncommunicable diseases, such as heart disease, diabetes and cancer. Eating a variety of foods and
+                consuming less salt, sugars and saturated and industrially-produced trans-fats, are essential for
+                healthy diet.
+                To know more on how to start eating health, click the button to view it in detail.
+            </p>
+            <a href="/poster2" class="button">View Me ></a>
+        </div>
+
+    </div>
+    </form>
+
+    <button class="open-button" onclick="openForm()"> @ Help</button>
+
+    <div class="form-popup" id="myForm">
+        <form class="form-container">
+            <h1>Mail us!</h1>
+            <br>
+            <p>Was your question answered? Drop us an email and we will get back to you.</p>
+            <label for="email"><b>Contact us here via our mail:</b></label>
+            <a href="mailto:HiHealthApplication@gmail.com" title="title" >
+            HiHealthApplication@gmail.com</a>
+
+            <!--
+            <input type="text" pattern="[^ @]*@[^ @]*" placeholder="Enter Email" name="email" required>
+                -->
+            <br>
+            <br>
+            <label for="msg"><b><i>Call us here via our LandLine:</i></b></label>
+            <br>
+            <a href="tel:(+65)6435 3500">Call us at (+65)6435 3500</a>
+            <br>
+            <i>
+            <p>We will contact you either via mail or phone call. So please stay in touch with us:)</p>
+            </i>
+
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+    <script>
+
+        function myFunction() {
+            alert("Successfully sent!");
+        }
+
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+    </script>
+</body>
+<script>
+    var acordion = document.getElementsByClassName('accordion');
+
+    var i;
+    var len = acordion.length;
+    for (i = 0; i < len; i++) {
+        acordion[i].addEventListener('click', function () {
+            this.classList.toggle('active');
+            var panal = this.nextElementSibling;
+            if (panal.style.maxHeight) {
+                panal.style.maxHeight = null;
+            } else {
+                panal.style.maxHeight = panal.scrollHeight + 'px';
+            }
+        })
+    }
+
+</script>
+</section>
+
+{%endblock%}

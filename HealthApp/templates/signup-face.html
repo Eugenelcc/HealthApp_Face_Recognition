@@ -1,0 +1,233 @@
+{%extends "base.html"%}
+
+{% block title %} Signup Page{% endblock %}
+
+{%block content%}
+ <style>
+    fieldset {
+        border: thin solid #ccc;
+        border-radius: 4px;
+        padding: 20px;
+        padding-left: 40px;
+        background: #fbfbfb;
+    }
+
+    legend {
+        color: #678;
+    }
+
+    .form-control {
+        width: 95%;
+    }
+
+    label small {
+        color: #678 !important;
+    }
+
+    span.req {
+        color: maroon;
+        font-size: 112%;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            
+                <fieldset>
+                    <legend class="text-center">Welcome {{g.user.username}} ,{{g.user.last}}  <span class="req"><hr>
+                    <small>Profile Information </small></span></legend>
+
+
+
+                    <div class="form-group">
+                        <label for="firstname"><span class="req">* </span> First name: </label>
+                        <input class="form-control" type="text" name="username" id="username" value="{{g.user.username}}" readonly>
+                     
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastname"><span class="req">* </span> Last name: </label>
+                        <input class="form-control" type="text" name="last" id="last" value="{{g.user.last}}" readonly />
+                        <div id="errLast"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email"><span class="req">* </span> Email Address: </label>
+                        <input class="form-control" required type="text" name="email" id="email"
+                            value="{{g.user.email}}" readonly />
+                        <div class="status" id="status"></div>
+                    </div>
+                
+  
+
+   
+          
+
+        </div>
+        </fieldset>
+        <div class="col-md-6">
+            <h1 class="page-header">WebCam</h1>
+            <p>Use the webcam to take a screenshot and upload to the server </p>
+                    <h4 class="faceindex"> Face: <p style="color:red" id="index">01</p>
+</h4>
+            <a href="#" class="btn btn-success" onclick="startWebcam()">Webcam On</a>
+            <a href="#" class="btn btn-primary" onclick="init()">Capture me</a>
+            <a href="#" class="btn btn-danger" onclick="stopWebcam() ">Webcam Off</a>
+            <hr>
+            <p class="errorMsg" id="ImgError"  hidden style="color:red" id="position" >No face detected. Please recapture the picture.</p>
+            <p><video id="video" controls autoplay></video>
+                <canvas id="canvas"></canvas>
+            </p>
+        </div>
+    </div>
+
+
+    
+<script>
+
+    const registerName = document.getElementById('username');
+    const takePhotoButton = document.getElementById('takePhotoButton');
+    const ImgError = document.getElementById('ImgError');
+
+
+    //STOP WEBCAM
+    var webcamStream;
+    function stopWebcam() {
+        webcamStarted = false;
+        webcamStream.getTracks()[0].stop();
+    }
+
+
+    //START WEBCAM
+    function startWebcam() {
+        navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia(
+                { video: { width: 500, height: 350 }, audio: false },
+
+                // successCallback
+                function (localMediaStream) {
+                    var video = document.getElementById('video')
+                    webcamStream = localMediaStream;
+
+
+                    // Assign the stream to the video player
+                    video.srcObject = localMediaStream;
+
+                    // Start the video
+                    video.play();
+                },
+
+                // errorCallback
+                function (err) {
+                    console.log("The following error occured: " + err);
+                }
+            );
+        }
+        else {
+            console.log("getUserMedia not supported");
+        }
+    }
+
+
+
+
+    
+
+    //DATAURITOBLOB
+    function dataURItoBlob(dataURI) {
+        // convert base64/URLEncoded data component to raw binary data held in a string
+        var byteString;
+        if (dataURI.split(',')[0].indexOf('base64') >= 0)
+            byteString = atob(dataURI.split(',')[1]);
+        else
+            byteString = unescape(dataURI.split(',')[1]);
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        // write the bytes of the string to a typed array
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ia], { type: mimeString });
+    }
+ 
+
+    // Captures an image frame (in PNG format) from the video and returns it.
+    function takePhoto(name) {
+        var canvas = document.getElementById('canvas');
+        var video = document.getElementById('video')
+        var context = canvas.getContext('2d');
+
+        // Set the canvas’s width and height
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Draws the video frame onto the canvas
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        var img = canvas.toDataURL("image/png");
+        //console.log(img)
+
+        //DATEURITOBLOB
+        var dateuritoblobIMG = dataURItoBlob(img);
+        const formdata = new FormData();
+        formdata.append('file', dateuritoblobIMG);
+        formdata.append('name', name)
+        fetch('http://127.0.0.1:8000/training', {
+            method: 'POST',
+            body: formdata,
+        })
+        .then(response => response.json())
+            .then(result => {
+                console.log("RESULT : ", result.result)
+
+              
+                resultz= result.result
+
+                console.log("FINAL CALL ", result)
+                if (resultz == "False") {
+                    ImgError.hidden = false;
+                    console.log("ACTIVATE IMGERROR")
+                }
+                else if (resultz == "done") {
+                    console.log("DONE!!")
+                    window.location.href = `${window.origin}/trainingload`;
+                    
+                }
+                else {
+                   
+                    ImgError.hidden = true;
+                    index.innerHTML = resultz;
+                    console.log("Success Returning result from the API Route:");
+                }
+
+            })
+    }
+
+   
+ 
+
+
+    // Extract the blob from the canvas and post it up to our API
+    //
+    
+
+    function AutoRefresh(t) {
+        setTimeout("location.reload(true);", t);
+    }
+
+
+ function init(){
+
+    takePhoto(registerName.value)
+ }
+ 
+ 
+  
+
+
+
+
+</script>
+ 
+{%endblock%}

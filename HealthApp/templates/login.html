@@ -1,0 +1,408 @@
+{%extends "base.html"%}
+
+{% block title %} Home Page{% endblock %}
+
+{%block content%}
+ 
+<style>
+label {
+    display: block !important;
+}
+
+    .nav-tabs {
+        margin-bottom: 15px;
+    }
+
+    .sign-with {
+        margin-top: 25px;
+        padding: 20px;
+    }
+
+    div#OR {
+        height: 30px;
+        width: 30px;
+        border: 1px solid #C2C2C2;
+        border-radius: 50%;
+        font-weight: bold;
+        line-height: 28px;
+        text-align: center;
+        font-size: 12px;
+        float: right;
+        position: absolute;
+        right: -16px;
+        top: 40%;
+        z-index: 1;
+        background: #DFDFDF;
+    }
+
+    a.btn.btn-theme1 {
+        width: 60%;
+    }
+
+    * start login page css */ .secound-head .navbar-nav li .nav-link {
+        color: #000;
+    }
+
+    .secound-head .navbar-brand {
+        color: #000;
+    }
+
+    .secound-head.light-header {
+        position: fixed;
+        width: 100%;
+        background: #fff;
+        z-index: 99999;
+        transition: ease 0.5s;
+    }
+
+    .login-page {
+        background: #f6f6f6;
+        /* fallback for old browsers\
+	background: -webkit-linear-gradient(to bottom, #2399f4, #12D8FA, #1FA2FF);  /* Chrome 10-25, Safari 5.1-6 
+	background: linear-gradient(to bottom, #2399f4, #12D8FA, #1FA2FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        padding: 40px 0px;
+        min-height: 450px;
+        position: relative;
+        display: inline-flex;
+        width: 100%;
+    }
+
+    .log-box {
+        border-radius: 10px;
+        min-height: 400px;
+        box-shadow: 0px 0px 10px #ccc;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .logo-back {
+        background: url("../img/log-img.png");
+        background-size: auto auto;
+        display: inline-block;
+        width: 100%;
+        min-height: 450px;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        border-radius: 10px 0px 0px 10px;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .log-content {
+        padding: 40px 20px 0px;
+        display: inline-block;
+        width: 100%;
+        background-color: #fff;
+        min-height: 460px;
+        border-radius: 0px 10px 10px 0px;
+    }
+
+    .myr-top {
+        margin-top: 15px;
+    }
+
+    .log-content .log-body {
+        margin-top: 50px;
+    }
+
+    .log-content label {
+        margin: 0px;
+        font-family: Poppins-R;
+        font-size: 14px;
+        display: none;
+    }
+
+    .log-content .custom {
+        border-bottom: 1px solid #000;
+        padding: 10px 10px 10px 0px
+    }
+
+    .log-btn {
+        padding-bottom: 20px;
+    }
+
+    .btn-theme1 {
+        font-size: 16px;
+        font-family: Poppins-R;
+        padding: 10px 20px;
+        background-color: #35cbdf;
+        color: #fff;
+        border: 1px solid transparent;
+        border-radius: 50px;
+        transition: ease 0.5s;
+    }
+
+    .btn-theme1:hover {
+        color: #35cbdf;
+        background-color: #fff;
+        border: 1px solid #000;
+    }
+
+    .log-bottom-cotent {
+        margin-top: 28%;
+    }
+
+    /* end login page css */
+    
+</style>
+
+<div class="login-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 m-auto col-sm-8 col-12">
+                <div class="log-box">
+                    <div class="row">
+                        <div class="col-xl-5 col-sm-5 col-12 pad-right-0">
+
+                            <img src="./static/img/mascot.png">
+
+                        </div>
+                        <div class="col-xl-7 col-sm-7 col-12 pad-left-0">
+                        
+                            <div class="log-content">
+                            <form method="POST">
+                                <h1>LOGIN </h1>
+                                <div class="log-body">
+                                    <div class="form-group myr-top">
+                                        <label><i class="fa fa-user icon"></i> Name</label>
+                                     
+                                        
+                                        
+                                        <input  type="input" class="form-control custom" placeholder="Name" name="username">
+                                       
+
+                                        
+                                    </div>
+
+                                    <div class="form-group myr-top">
+                                        <label><i class="fas fa-lock"></i>
+                                        Password</label>
+                                        
+                                       
+                                           
+                                      
+                                        <input type="password" class="form-control custom" placeholder="Password"  name="password">
+                                
+                                    </div>
+
+                                    <div class="log-btn text-center">
+                                        <button type="submit" class="btn btn-theme1">Login</button>
+                                    </div>
+
+                            </form>
+                
+                                    <hr>
+                                    <div class="face-btn text-center">
+                                        <button type="button"  class="btn btn-theme1" data-toggle="modal" data-target="#myModal"
+                                            onclick="init()">
+                                            Face modal
+                                        </button>
+
+                                    
+                                        <div class="log-bottom-cotent">
+                                            <p>Creat an account</p><a href="/register">Sign Up</a> |
+                                            <a href="forgotpassword.html" class="pull-right">Forgot Password</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+     
+    <!--Model-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true" onload="init()">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">
+                        Face Login </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="stopWebcam()">
+                        ×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8" style="border-right: 1px dotted #C2C2C2;padding-right: 30px;">
+
+                            <!-- Tab panes -->
+                            <video id="video" controls autoplay></video>
+                            <canvas id="canvas"></canvas>
+
+                            <div id="OR" class="hidden-xs">
+                                OR</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row text-center sign-with">
+                                <div class="col-md-12">
+                                    <h3>
+                                        Sign in with Face Recognition</h3>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="btn-group btn-group-justified">
+                                        <a href="#" class="btn btn-primary" id="takePhotoButton">Capture me</a>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="application/javascript">
+
+        // Starts the web cam
+        //
+        var webcamStream;
+        function stopWebcam() {
+            webcamStarted = false;
+            webcamStream.getTracks()[0].stop();
+        }
+
+        function startWebcam() {
+            navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia(
+                    { video: { width: 300, height: 300 }, audio: false },
+
+                    // successCallback
+                    function (localMediaStream) {
+                        var video = document.getElementById('video')
+                        webcamStream = localMediaStream;
+
+
+                        // Assign the stream to the video player
+                        video.srcObject = localMediaStream;
+
+                        // Start the video
+                        video.play();
+                    },
+
+                    // errorCallback
+                    function (err) {
+                        console.log("The following error occured: " + err);
+                    }
+                );
+            }
+            else {
+                console.log("getUserMedia not supported");
+            }
+        }
+
+
+        // Captures an image frame (in PNG format) from the video 
+        // and returns it.
+        //
+        function takePhoto() {
+            var canvas = document.getElementById('canvas');
+            var video = document.getElementById('video')
+            var context = canvas.getContext('2d');
+
+            // Set the canvas’s width and height
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draws the video frame onto the canvas
+            context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        }
+
+
+        // Extract the blob from the canvas and post it up to our API
+        //
+        function postPhoto() {
+            var canvas = document.getElementById('canvas');
+            canvas.toBlob(function (photoBlob) {
+                const formData = new FormData();
+                formData.append('file', photoBlob);
+
+                fetch('http://127.0.0.1:8000/predictImg', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        // Display the results here.
+                        console.log("face:", result.Face_name)
+                         
+                        if((result.Face_name == "unknown") || (result.Face_name == "No_face")){
+                            alert("The face is  : " + result.Face_name)
+                        }
+                        else{
+                           
+                            console.log("This is fetch data : ", result);
+                             
+                             fetch(`${window.origin}/facetologin`,{
+                                 method:"POST",
+                                 body: JSON.stringify(result),
+                                 caches:"no-cache",
+                                 headers:new Headers({
+                                     "content-type":"application/json"
+                                 })
+                             })
+                             console.log(`Face: ${result.Face_name} FOUND ! 
+                             ==============================================
+                             please press ok and the page will refresh in 1 seconds `
+                             )
+
+                             AutoRefresh(1000)
+                             
+
+                            
+                        
+
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            })
+        }
+
+        function AutoRefresh(t){
+                setTimeout("location.reload(true);", t);
+                
+            }
+
+
+       
+
+
+
+        // Initialize the application by starting the web cam
+        // This method is called by the body's onload event.
+        //
+        function init() {
+
+            // When the take photo button is clicked, takes a photo from the video frame,
+            // displays it in the canvas, uploads it to our API and displays
+            // the result.
+            //
+            document.getElementById('takePhotoButton').addEventListener('click', function () {
+                for (let i = 0; i < 3; i++) {
+
+                    takePhoto();
+                    console.log("Route", i)
+
+                }
+                postPhoto();
+
+            })
+
+            startWebcam();
+        }
+
+    </script>
+
+
+    {%endblock%}

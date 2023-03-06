@@ -1,0 +1,146 @@
+<div id="navbar">
+    {% block navbar %}
+    {%include "includes/navbar.html" %}
+    {% endblock %}
+</div>
+<html>
+<header>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="/static/css/followprac.css">
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+
+</header>
+
+<body>
+    <div id="demo2app" style="padding-left:180px;padding-right:180px;">
+        <div class="row">
+
+            <div class="col-sm-6" id="wrappers">
+                <div class="input-field col s6">
+                    <div class="erm">
+                        <p id="theuploadname">Upload Your Image Here:</p>
+                        <input type="file" id="img" name="img" accept="image/*" @change="previewFiles">
+                        <p id="wrapper"></p>
+                    </div>
+
+                    <div class="rectview" id="rectview">
+                        <img id="image" :src="imgSrc" />
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+            <div class="col-sm-6" id="sidebar">
+                <p id="fooditems">Food Item List :</p>
+                <div id="thefooddetected"> </div>
+                <input id="icon_prefix" type="text" v-model="fooditem" class="validate">
+                <label for="icon_prefix">Enter Your Food Items</label>
+                <a class="waves-effect waves-light btn" @click="enterfooditems"><i
+                        class="material-icons left">add</i>Add Food Item</a>
+
+                <p id="itemnotavail"></p>
+                <table id="thetotalcal">
+                    <tr>
+                        <th>Total Calories</th>
+                        <th>Total Cholestoral</th>
+                        <th>Total Fats</th>
+                        <th>Total Carbohydrates</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+                <form action="/dashboard">
+                    <input type="submit" value="Proceed" />
+                </form>
+
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+    <script type="text/javascript" src="/static/js/followprac.js">
+
+    </script>
+    <script>
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries())
+        console.log(params["duration"])
+        var addingoption = params["duration"];
+
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyCL4BJG84fK1jXuOf0LYo1YfhBAzqPFw8U",
+            authDomain: "healthappit3100.firebaseapp.com",
+            databaseURL: "https://healthappit3100-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "healthappit3100",
+            storageBucket: "healthappit3100.appspot.com",
+            messagingSenderId: "539039456256",
+            appId: "1:539039456256:web:06a888e697a9fc498c0ce5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var totalcalories = 0;
+        var totalcholesterol = 0;
+        var totalfats = 0;
+        var totalcarbohydrates = 0;
+        var theglobalobjectname = "";
+        var theglobalcalories = "";
+
+        var todaydate = new Date();
+        var displaydate = todaydate.getFullYear() + "-" + (todaydate.getMonth() + 1) + "-" + todaydate.getDate() + " " + todaydate.getHours() + ":" + todaydate.getMinutes() + ":" + todaydate.getSeconds();
+        whatsgoingon = displaydate
+        function changepicture(e) {
+            let newImg = new Image(200, 150);
+
+            // Equivalent to above -> let newImg = document.createElement("img");
+
+            newImg.src = e.target.files[0];
+            newImg.src = URL.createObjectURL(e.target.files[0]);
+
+            document.getElementById("output").appendChild(newImg);
+            console.log("did u run this?")
+        }
+
+        
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+{%extends "base.html"%}
+
+{% block title %} Details Page{% endblock %}
+
+{%block content%}
+    <style>
+ body {
+    margin: 0;
+    padding: 0;
+    background: rgb(102, 151, 118);
+}
+
+.feedback {
+  background-color : #31B0D5;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border-color: #46b8da;
+}
+
+#mybutton {
+    position:   absolute;
+    top:        150px;
+    left:       165px;
+    text-align: left;
+}
+    </style>
+
+
+<body>
+
+<br>
+<h2><center>Detailed Steps on how to use our App:</h2></center>
+<center><img src="/static/img/poster2.jpeg" alt="Trulli" width="490" height="688"></center>
+
+</centre>
+
+<div id="mybutton">
+    <button class="feedback" onclick="location.href='/faq';">Click to go Back</button>
+    </div>
+
+</body>
+{%endblock%}

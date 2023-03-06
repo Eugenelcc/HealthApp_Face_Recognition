@@ -1,0 +1,354 @@
+{%extends "base.html"%}
+
+{% block title %} Dashboard{% endblock %}
+
+{%block content%}
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+ 
+    <div class="row" style="padding-left:240px;padding-right:240px;">
+
+        <div class="col-md-5">
+            <p><span style="font-size:32px;">Today's Date : </span><span id="thetodaydate"> </span></p>
+            <p><span style="font-size:28px;">Calorie Intake For Today : </span><span id="thecalintake"></span></p>
+            <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+        </div>
+        <div class="col-md-7" >
+            <div class="addFood" style="background-color:antiquewhite;overflow:auto;border-radius:10px;padding:10px;">
+                <p><span style="font-size:32px;font-weight:bold">History</span><input type="date" id="birthday" name="birthday">
+                </p>
+                <div class="morningfood" style="padding:5px;">
+                    <p><span style="font-weight:bold;font-size:32px;">Morning Food:</span><a href="/addfood?duration=morning"
+                            class="waves-effect waves-light btn" style="float:right;width:160px;" id="morningbutton"><i
+                                class="material-icons left">add_circle_outline</i>Morning</a></p>
+                    <table id="thetotalcalmorning">
+                        <thead>
+                            <tr>
+    
+    
+                                <th>Name Of Food</th>
+                                <th>Calories</th>
+                                <th>Cholestoral</th>
+                                <th>Fats</th>
+                                <th>Carbohydrates</th>
+                                <th>Serving Size (g) </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+                <div class="afternoonfood" style="padding:5px;">
+                    <p><span style="font-weight:bold;font-size:32px;">Afternoon Food:</span><a href="/addfood?duration=lunch"
+                            class="waves-effect waves-light btn" style="float:right;width:160px;" id="lunchbutton"><i
+                                class="material-icons left">add_circle_outline</i>Afternoon</a></p>
+                    <table id="thetotalcallunch">
+                        <thead>
+                            <tr>
+    
+    
+                                <th>Name Of Food</th>
+                                <th>Calories</th>
+                                <th>Cholestoral</th>
+                                <th>Fats</th>
+                                <th>Carbohydrates</th>
+                                <th>Serving Size (g) </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+                <div class="nightfood" style="padding:5px;">
+                    <p><span style="font-weight:bold;font-size:32px;">Night Food:</span><a href="/addfood?duration=dinner"
+                            class="waves-effect waves-light btn" style="float:right;width:160px;"  id="nightbutton"><i
+                                class="material-icons left">add_circle_outline</i>Night</a></p>
+                    <table id="thetotalcaldinner">
+                        <thead>
+                            <tr>
+    
+    
+                                <th>Name Of Food</th>
+                                <th>Calories</th>
+                                <th>Cholestoral</th>
+                                <th>Fats</th>
+                                <th>Carbohydrates</th>
+                                <th>Serving Size (g) </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+            </div>
+        </div>
+        
+       
+    </div>
+    <script>
+        var dailyintake = 0;
+        var thedate = new Date();
+        var thetotalexercal=0;
+        var gettheexer=0;
+        var theextractdate = thedate.getFullYear() + "-" + (thedate.getMonth() + 1) + "-" + thedate.getDate()
+        var firebaseConfig = {
+            apiKey: "AIzaSyCL4BJG84fK1jXuOf0LYo1YfhBAzqPFw8U",
+            authDomain: "healthappit3100.firebaseapp.com",
+            databaseURL: "https://healthappit3100-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "healthappit3100",
+            storageBucket: "healthappit3100.appspot.com",
+            messagingSenderId: "539039456256",
+            appId: "1:539039456256:web:06a888e697a9fc498c0ce5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var countermorning = 0;
+        var thecalculatedcalorie = 0;
+        var dailyintake = 0;
+        var thetransformdate="";
+        firebase.database().ref("User/FoodItems").on('value', function (snapshot) {
+
+
+            console.log(snapshot.val());
+            duplicatepls = snapshot.val()
+            for (p in duplicatepls) {
+                for (o in duplicatepls[p]) {
+
+
+                    thesplitdate = o.split(" ")
+                    if (thesplitdate[0] == theextractdate) {
+                        var theresult = duplicatepls[p][o]
+                        console.log(theresult)
+                        for (everything in duplicatepls[p][o]) {
+                            console.log(theresult[everything].calories)
+                            thecalculatedcalorie = thecalculatedcalorie + parseFloat(theresult[everything].calories)
+
+                            if (p == "morning") {
+
+
+
+                                $('#thetotalcalmorning').append('<tr><td>' + everything + '</td><td>' + theresult[everything].calories + '</td><td>' + theresult[everything].cholestoral + '</td><td>' + theresult[everything].fats + '</td><td>' + theresult[everything].carbohydrates + '</td><td>' + theresult[everything].servingsize + '</td></tr>');
+
+
+
+
+
+                            } else if (p == "lunch") {
+                                $('#thetotalcallunch').append('<tr><td>' + everything + '</td><td>' + theresult[everything].calories + '</td><td>' + theresult[everything].cholestoral + '</td><td>' + theresult[everything].fats + '</td><td>' + theresult[everything].carbohydrates + '</td><td>' + theresult[everything].servingsize + '</td></tr>');
+                            } else if (p == "dinner") {
+                                $('#thetotalcaldinner').append('<tr><td>' + everything + '</td><td>' + theresult[everything].calories + '</td><td>' + theresult[everything].cholestoral + '</td><td>' + theresult[everything].fats + '</td><td>' + theresult[everything].carbohydrates + '</td><td>' + theresult[everything].servingsize + '</td></tr>');
+                            }
+
+                        }
+                    }
+
+                }
+
+
+
+
+            }
+
+        })
+
+
+
+
+
+
+        firebase.database().ref("User/theinfo/").on('value', function (snapshot) {
+            
+            dailyintake = dailyintake + parseFloat(snapshot.val().caloriesintakeperday);
+
+            addexer()
+            
+
+        })
+
+        function addexer(){
+            firebase.database().ref("User/theinfo/exer").on('value', function (snapshot) {
+                console.log("thenumberexercise"+snapshot.val());
+                for (po in snapshot.val()) {
+                    retrievethedateheh=po.split(" ")
+                    retrievethefirstdate=retrievethedateheh[0]
+                    if(theextractdate==retrievethefirstdate){
+                        gettheexer=gettheexer+1;
+                        
+                    }
+                    
+                }
+               
+
+
+                thetotalexercal=1.7*parseInt(gettheexer)
+                
+                callnow()
+
+            })
+        }
+        function callnow() {
+            document.getElementById("thecalintake").innerHTML =(dailyintake+thetotalexercal).toFixed(2).toString()
+            console.log("dajiahao")
+            console.log(thecalculatedcalorie)
+            console.log(dailyintake)
+            var thedifference = dailyintake - thecalculatedcalorie ;
+            console.log(thedifference + "huh")
+            var xValues = ["Used Calories", "Remaining Calories"];
+            var yValues = [parseInt(thecalculatedcalorie), parseInt(thedifference+thetotalexercal)];
+            var barcolors = ["red", "#58D68D"]
+
+            new Chart("myChart", {
+                type: "bar",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barcolors,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: "Total Calories Intake For Today" 
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                reverse: false,
+                                stepSize: 500
+                            },
+                        }]
+                    }
+                }
+            });
+        }
+        
+        document.getElementById("thetodaydate").innerHTML = theextractdate;
+
+        $('#birthday').change(function () {
+            var thedateselected = $(this).val();
+            
+            console.log(thedateselected)
+            
+            console.log("nihao")
+            console.log(thedate.getMonth())
+            var thelatestdate;
+            // to make it a right format taken from database:
+            if((thedate.getMonth()+1)<10 && thedate.getDate()<10){
+                thelatestdate=thedate.getFullYear() + "-0" + (thedate.getMonth()+1) + "-0" + thedate.getDate()
+
+            }else if ((thedate.getMonth()+1)<10){
+                thelatestdate=thedate.getFullYear() + "-0" + (thedate.getMonth()+1) + "-" + thedate.getDate()
+            }else if(thedate.getDate()<10){
+                thelatestdate=thedate.getFullYear() + "-" + (thedate.getMonth()+1) + "-0" + thedate.getDate()
+            }
+            console.log(thelatestdate);
+
+            if (thedateselected!=thelatestdate){
+                document.getElementById("morningbutton").style.visibility = "hidden";
+                document.getElementById("lunchbutton").style.visibility = "hidden";
+                document.getElementById("nightbutton").style.visibility = "hidden";
+            }else{
+                document.getElementById("morningbutton").style.visibility = "visible";
+                document.getElementById("lunchbutton").style.visibility = "visible";
+                document.getElementById("nightbutton").style.visibility = "visible";
+            }
+            $("#thetotalcalmorning tbody tr").remove();
+            $("#thetotalcallunch tbody tr").remove();
+            $("#thetotalcaldinner tbody tr").remove();
+
+            firebase.database().ref("User/FoodItems").on('value', function (snapshot) {
+                therequestedvalue = snapshot.val()
+
+                for (p in therequestedvalue) {
+                    for (o in therequestedvalue[p]) {
+
+
+                        thesplitdate = o.split(" ")
+                        anothersplitting=thesplitdate[0].split("-")
+                        
+                        thenewdate= new Date(anothersplitting[0],anothersplitting[1],anothersplitting[2])
+                        console.log(thenewdate+"are u sure")
+                        if (parseInt(thenewdate.getMonth())>=10 && parseInt(thenewdate.getDate())>=10){
+                            thetransformdate=thenewdate.getFullYear() + "-" + thenewdate.getMonth() + "-" + thenewdate.getDate()
+                        }else if(parseInt(thenewdate.getMonth())<10 && parseInt(thenewdate.getDate())<10){
+                            thetransformdate=thenewdate.getFullYear() + "-0" + thenewdate.getMonth() + "-0" + thenewdate.getDate()
+                        }else if(parseInt(thenewdate.getMonth())<10 ){
+                            thetransformdate=thenewdate.getFullYear() + "-0" + thenewdate.getMonth() + "-" + thenewdate.getDate()
+                        }else if(parseInt(thenewdate.getDate())<10){
+                        
+                            thetransformdate=thenewdate.getFullYear() + "-" + thenewdate.getMonth() + "-0" + thenewdate.getDate()
+                        }
+                        console.log("thechecking")
+                        console.log(thetransformdate)
+                        console.log(thedateselected)
+
+                        if (thedateselected == thetransformdate) {
+                            var theresult = duplicatepls[p][o]
+                            console.log(theresult)
+                            for (everything in duplicatepls[p][o]) {
+                                console.log(theresult[everything].calories)
+                                thecalculatedcalorie = thecalculatedcalorie + parseFloat(theresult[everything].calories)
+
+                                if (p == "morning") {
+
+
+
+                                    $('#thetotalcalmorning').append('<tr><td>' + everything + '</td><td>' + theresult[everything].calories + '</td><td>' + theresult[everything].cholestoral + '</td><td>' + theresult[everything].fats + '</td><td>' + theresult[everything].carbohydrates + '</td><td>' + theresult[everything].servingsize + '</td></tr>');
+
+
+
+
+
+                                } else if (p == "lunch") {
+                                    $('#thetotalcallunch').append('<tr><td>' + everything + '</td><td>' + theresult[everything].calories + '</td><td>' + theresult[everything].cholestoral + '</td><td>' + theresult[everything].fats + '</td><td>' + theresult[everything].carbohydrates + '</td><td>' + theresult[everything].servingsize + '</td></tr>');
+                                } else if (p == "dinner") {
+                                    $('#thetotalcaldinner').append('<tr><td>' + everything + '</td><td>' + theresult[everything].calories + '</td><td>' + theresult[everything].cholestoral + '</td><td>' + theresult[everything].fats + '</td><td>' + theresult[everything].carbohydrates + '</td><td>' + theresult[everything].servingsize + '</td></tr>');
+                                }
+
+                            }
+                        }
+
+                    }
+
+
+
+
+                }
+            })
+
+        });
+
+
+
+    </script>
+ 
+{% endblock %}
